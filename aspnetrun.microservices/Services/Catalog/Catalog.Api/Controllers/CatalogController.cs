@@ -3,6 +3,7 @@ using Catalog.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Catalog.Api.Controllers
@@ -20,10 +21,11 @@ namespace Catalog.Api.Controllers
             _logger = logger;
         }
         [HttpGet]
-        public async Task<IEnumerable<Product>> GetProducts()
+        [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
             var prodcuts = await _productRepository.GetProducts();
-            return prodcuts;
+            return Ok(prodcuts);
         }
     }
 }
